@@ -29,7 +29,7 @@
     "lint:fix": "eslint --fix --ext .js,.ts ./src",
     "changelog": "gulp changelog",
     "test": "jest --detectOpenHandles",
-    "prepublishOnly": "yarn lint & yarn test & yarn changelog & yarn build"
+    "prepublishOnly": "yarn changelog"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
@@ -73,7 +73,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged & jest -u"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
