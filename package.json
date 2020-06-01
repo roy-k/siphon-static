@@ -1,5 +1,5 @@
 {
-  "name": "@royk/siphon-static",
+  "name": "@gaokuan/siphon-static",
   "version": "0.1.0",
   "description": "静态网页抓取",
   "main": "lib/index.js",
