@@ -2,8 +2,8 @@ import { repeatAsync } from '../util/util'
 import { getPageData } from './getPageData'
 import { getFieldsFromPageData } from './readPageData'
 
-import { SiOptions } from 'types'
-import { loopTask } from './loopTask'
+import { SiOptions, PageData, TaskHandler } from 'types'
+import { loopTask, taskListGenerator } from './loopTask'
 import { msg } from '../util/console'
 
 /**
@@ -37,7 +37,7 @@ async function fetchAndReadPage(target: string, options: SiOptions) {
 }
 
 function resolvePage(options: SiOptions, onlyContent = false) {
-  return async function taskHandler(target: string) {
+  return async function taskHandler(target: string, addItems: any) {
     const { pagination, onEmitPageData } = options
 
     // 1. 请求 / 解读数据
@@ -84,10 +84,10 @@ function resolvePage(options: SiOptions, onlyContent = false) {
 
       const taskList = new Array(restTaskLength).fill(1).map((i, index) => {
         const targetUrl = composeUrlFn(target, index + 2)
-        return () => onlyContentHandler(targetUrl)
+        return () => onlyContentHandler(targetUrl, addItems)
       })
 
-      taskList.push(...taskList)
+      addItems(...taskList)
     }
 
     onEmitPageData && onEmitPageData(null, result)
@@ -102,12 +102,13 @@ function resolvePage(options: SiOptions, onlyContent = false) {
 async function handleStaticPage(targetList: string[], options: SiOptions) {
   // 1. mapTask
   const { parallel, interval } = options
-
+  const {list, addItems} = taskListGenerator<TaskHandler>()
   // 2. handle 函数
   const taskHandler = resolvePage(options)
-  const taskList = targetList.map((target) => () => taskHandler(target))
+  const taskList = targetList.map((target) => () => taskHandler(target, addItems))
+  addItems(taskList)
   // 3. emitPageData
-  return loopTask(taskList, parallel, interval)
+  return loopTask(list, parallel, interval)
 }
 
 export default handleStaticPage

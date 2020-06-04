@@ -75,3 +75,17 @@ export function loopTask(
 
   return loopTaskInterval(taskList, interval)
 }
+
+/**
+ * 任务列表创建, 闭包维护一个数组, 方便运行中添加任务
+ * @param initList T<handler>
+ */
+export function taskListGenerator<T>(initList?: T[]) {
+  const list = initList || []
+
+  function addItems(items: T[]) {
+    list.push(...items)
+  }
+
+  return { list, addItems }
+}

@@ -23,7 +23,7 @@ const rollupConfig: RollupOptions = {
     // 输出 es 规范的代码
     {
       file: path.join(paths.output, 'index.js'),
-      format: 'es',
+      format: 'commonjs',
       name: pkg.name,
     },
   ],
