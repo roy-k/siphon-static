@@ -1,6 +1,6 @@
 {
   "name": "@gaokuan/siphon-static",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "静态网页抓取",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
