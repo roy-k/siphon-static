@@ -28,6 +28,6 @@ jobs:
         npm run build --if-present
         npm run test --if-present
     - name: publish
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+      run: npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.npm_token}}
